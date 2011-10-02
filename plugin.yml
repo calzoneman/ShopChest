@@ -1,6 +1,6 @@
 name: ShopChest
 main: us.calzoneman.ShopChest.ShopChest
-version: 0.00
+version: 1.00
 commands:
     cshop:
       description: The command used to manipulate ChestShops

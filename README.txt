@@ -23,5 +23,10 @@ Currently, players can (with the correct Permissions):
 Transactions are computed serverside and completed through iConomy integration.  The plugin monitors players as they shop, preventing fraud.
 iConomy versions 5 and 6 are supported, as well as Permissions 2.7 and Bukkit permissions.
 
+What is required to build ShopChest?
+In order to build ShopChest, you must link your IDE with the latest version of Bukkit, available at http://bukkit.org.  To build with
+iConomy support, you must also link the appropriate iConomy.jar (version 5 or 6).  To build with old Permissions support, you must
+link Permissions.jar.  I have not included these jars in the distribution as I do not wish to violate any licenses each may have been distributed with.
+
 How can I contact the developer?
 You may contact me at calzoneman [at] gmail [dot] com.  Please include ShopChest in the subject line so I know what you're emailing me about.
