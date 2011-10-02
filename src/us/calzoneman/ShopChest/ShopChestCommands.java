@@ -177,7 +177,7 @@ public class ShopChestCommands {
             ply.sendMessage(ShopChest.shopChestPrefix + "You don't have permission to set shop prices!");
             return false;
         }
-        if(args.length == 4) {
+        if(args.length == 3 || args.length == 4) {
             if(!ShopChest.selected.containsKey(ply) || (ShopChest.selected.containsKey(ply) && !ShopChest.shops.containsKey(ShopChest.selected.get(ply)))) {
                 ply.sendMessage(ShopChest.shopChestPrefix + "You must either select a shop first or provide a shop name");
                 return false;
@@ -187,19 +187,16 @@ public class ShopChestCommands {
                 ply.sendMessage(ShopChest.shopChestPrefix + "You can't set prices for other peoples' shops!");
                 return false;
             }
-            String iddata = (args.length > 1 ? args[1] : "");
-            String price1 = (args.length > 2 ? args[2] : "");
+            String iddata = args[1];
+            String price1 = args[2];
             String price2 = (args.length > 3 ? args[3] : "");
             try {
                 int item = ItemData.fromString(iddata);
                 float sellprice = Float.parseFloat(price1);
                 float buyprice = 0.40f * sellprice;
                 if(!price2.equals("")) buyprice = Float.parseFloat(price2);
+                // If cs has a neighbor, its specialPricing HashMap is the same reference as cs's so I only have to add it to cs
                 cs.specialPricing.put(item, new ShopPrice(sellprice, buyprice));
-                if(cs.chestNeighbor != null) {
-                    ChestShop neighbor = ShopChest.shops.get(cs.chestNeighbor.getBlock().getLocation());
-                    neighbor.specialPricing.put(item, new ShopPrice(sellprice, buyprice));
-                }
                 ply.sendMessage(ShopChest.shopChestPrefix + "New shop price for §a" + ShopChest.getItemName(item) + "§f set to §b" + sellprice + "§f, §b" + buyprice);
                 return true;
             }
@@ -212,9 +209,9 @@ public class ShopChestCommands {
         }
         else if(args.length == 5) {
             String shopname = args[1];
-            String iddata = (args.length > 2 ? args[2] : "");
-            String price1 = (args.length > 3 ? args[3] : "");
-            String price2 = (args.length > 4 ? args[4] : "");
+            String iddata = args[2];
+            String price1 = args[3];
+            String price2 = args[4];
             int item = -1;
             float sellprice = 0.0f;
             float buyprice = 0.0f;
@@ -232,11 +229,8 @@ public class ShopChestCommands {
             }
             for(ChestShop cs : ShopChest.shops.values()) {
                 if(cs.owner.equals(ply.getName()) && cs.name.equals(shopname)) {
+                    // If cs has a neighbor, its specialPricing HashMap is the same reference as cs's so I only have to add it to cs
                     cs.specialPricing.put(item, new ShopPrice(sellprice, buyprice));
-                    if(cs.chestNeighbor != null) {
-                        ChestShop neighbor = ShopChest.shops.get(cs.chestNeighbor.getBlock().getLocation());
-                        neighbor.specialPricing.put(item, new ShopPrice(sellprice, buyprice));
-                    }
                     ply.sendMessage(ShopChest.shopChestPrefix + "New shop price for §a" + ShopChest.getItemName(item) + "§f set to §b" + sellprice + "§f, §b" + buyprice);
                     return true;
                 }
@@ -334,8 +328,13 @@ public class ShopChestCommands {
         }
         ChestShop cs = null;
         int item = -1;
+        boolean removing = false;
         if(args.length == 2) {
             String iddata = args[1];
+            if(iddata.startsWith("-")) {
+                iddata = iddata.substring(1);
+                removing = true;
+            }
             try {
                 item = ItemData.fromString(iddata);
             }
@@ -358,6 +357,10 @@ public class ShopChestCommands {
         else if(args.length == 3) {
             String shopname = args[1];
             String iddata = args[2];
+            if(iddata.startsWith("-")) {
+                iddata = iddata.substring(1);
+                removing = true;
+            }
             for(ChestShop c : ShopChest.shops.values()) {
                 if(c.owner.equals(ply.getName()) && c.name.equals(shopname)) {
                     cs = c;
@@ -382,12 +385,25 @@ public class ShopChestCommands {
             return false;
         }
 
-        cs.buyItems.add(item);
-        if(cs.chestNeighbor != null) {
-            ChestShop neighbor = ShopChest.shops.get(cs.chestNeighbor.getBlock().getLocation());
-            neighbor.buyItems.add(item);
+        if(cs.buyItems.contains(item) && !removing) {
+            ply.sendMessage(ShopChest.shopChestPrefix + "That shop already allows players to sell §a" + ShopChest.getItemName(item));
+            return false;
         }
-        ply.sendMessage(ShopChest.shopChestPrefix + "Allowing players to sell §a" + ShopChest.getItemName(item) + " to your shop §2" + cs.name);
+        else if(!cs.buyItems.contains(item) && removing) {
+            ply.sendMessage(ShopChest.shopChestPrefix + "That shop already disallows players to sell §a" + ShopChest.getItemName(item));
+            return false;
+        }
+        if(removing) {
+            if(cs.buyItems.contains(item)) {
+                cs.buyItems.remove(cs.buyItems.indexOf(item));
+            }
+            ply.sendMessage(ShopChest.shopChestPrefix + "No longer allowing players to sell §a" + ShopChest.getItemName(item) + "§f to your shop §2" + cs.name);
+        }
+        else {
+            // If cs has a neighbor, its buyItems ArrayList is the same reference as cs's so I only have to add it to cs
+            cs.buyItems.add(item);
+            ply.sendMessage(ShopChest.shopChestPrefix + "Allowing players to sell §a" + ShopChest.getItemName(item) + "§f to your shop §2" + cs.name);
+        }
         return true;
     }
 
@@ -400,36 +416,37 @@ public class ShopChestCommands {
             ply.sendMessage("§c/cshop help setplayerprice §f- information about setting owner-specific pricing");
             ply.sendMessage("§c/cshop help checkprice §f- information about checking pricing");
             ply.sendMessage("§c/cshop help sale §f- information about setting shop sales");
-            ply.sendMessage("§c/cshop help allowbuy §f- informaiton about allowing buy items");
+            ply.sendMessage("§c/cshop help allowbuy §f- information about allowing buy items");
         }
         else if(args.length == 2) {
             if(args[1].equals("create")) {
-                ply.sendMessage("§c/cshop create [shopname] §f- Turns your last-selected shop into a ShopChest shop");
+                ply.sendMessage("§2/cshop create [shopname] §f- Turns your last-selected shop into a ShopChest shop");
                 ply.sendMessage("Select a chest by left-clicking it");
             }
             else if(args[1].equals("delete")) {
-                ply.sendMessage("§c/cshop delete §f- Deletes your last-selected chest shop");
-                ply.sendMessage("§c/cshop delete [shopname] §f- Deletes your shop with the given name");
+                ply.sendMessage("§2/cshop delete §f- Deletes your last-selected chest shop");
+                ply.sendMessage("§2/cshop delete [shopname] §f- Deletes your shop with the given name");
                 ply.sendMessage("Select a chest by left-clicking it");
             }
             else if(args[1].equals("setprice")) {
-                ply.sendMessage("§c/cshop setprice [id:data] [sellprice] [buyprice] §f- Sets shop-specific pricing for your last selected shop");
-                ply.sendMessage("§c/cshop setprice [shopname] [id]:[data] [sellprice] [buyprice] §f- Sets shop-specific pricing for your shop with the given name");
+                ply.sendMessage("§2/cshop setprice [id:data] [sellprice] [buyprice] §f- Sets shop-specific pricing for your last selected shop");
+                ply.sendMessage("§2/cshop setprice [shopname] [id]:[data] [sellprice] [buyprice] §f- Sets shop-specific pricing for your shop with the given name");
                 ply.sendMessage("[sellprice] is the price a shopper pays to buy it from your shop, [buyprice] is the price a shopper gets for selling it to your shop");
             }
             else if(args[1].equals("setplayerprice")) {
-                ply.sendMessage("§c/cshop setplayerprice [id]:[data] [sellprice] [buyprice] §f- Sets player-specific pricing");
+                ply.sendMessage("§2/cshop setplayerprice [id]:[data] [sellprice] [buyprice] §f- Sets player-specific pricing");
                 ply.sendMessage("[sellprice] is the price a shopper pays to buy it from your shop, [buyprice] is the price a shopper gets for selling it to your shop");
             }
             else if(args[1].equals("checkprice")) {
-                ply.sendMessage("§c/cshop checkprice [id]:[data] §f- Checks the standard price for an item (Also checks player and shop prices if you've selected a shop beforehand");
+                ply.sendMessage("§2/cshop checkprice [id]:[data] §f- Checks the standard price for an item (Also checks player and shop prices if you've selected a shop beforehand");
             }
             else if(args[1].equals("sale")) {
-                ply.sendMessage("§c/cshop sale [percentage] §f- Applies a shop-wide discount of [percentage]% off");
+                ply.sendMessage("§2/cshop sale [percentage] §f- Applies a shop-wide discount of [percentage]% off");
             }
             else if(args[1].equals("allowbuy")) {
-                ply.sendMessage("§c/cshop allowbuy [id:data] §f- Allows players to sell [id:data] to your selected shop");
-                ply.sendMessage("§c/cshop allowbuy [shopname] [id:data] §f- Allows players to sell [id:data] to your shop with the given name");
+                ply.sendMessage("§2/cshop allowbuy [id:data] §f- Allows players to sell [id:data] to your selected shop");
+                ply.sendMessage("§2/cshop allowbuy [shopname] [id:data] §f- Allows players to sell [id:data] to your shop with the given name");
+                ply.sendMessage("Add a negative sign (-) before [id:data] to undo this (disallow selling that item)");
             }
         }
         return true;

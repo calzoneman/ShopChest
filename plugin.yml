@@ -4,8 +4,6 @@ version: 1.00
 commands:
     cshop:
       description: The command used to manipulate ChestShops
-    cs:
-      description: Alias for /cshop
 permissions:
     shopchest.*:
         description: Gives access to all ShopChest commands
