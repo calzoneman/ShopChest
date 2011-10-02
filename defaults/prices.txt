@@ -1,0 +1,267 @@
+0;Air;0.0;0
+1;Stone;1.5;0.6
+2;Grass;10.0;4
+3;Dirt;0.1;0.04
+4;Cobblestone;0.5;0.2
+5;Wooden Plank;1.0;0.4
+6;Sapling;1.0;0.4
+6:1;Redwood Sapling;2.00;0.8
+6:2;Birch Sapling;2.00;0.8
+7;Bedrock;0.0;0
+8;Water;0.0;0
+9;Stationary water;0.0;0
+10;Lava;0.0;0
+11;Stationary lava;0.0;0
+12;Sand;1.0;0.4
+13;Gravel;0.75;0.3
+14;Gold ore;50.0;20
+15;Iron ore;10.0;4
+16;Coal ore;8.0;3.2
+17;Wood;4.0;1.6
+17:1;Redwood;6.0;2.4
+17:2;Birch;6.0;2.4
+18;Leaves;0.10;0.04
+18:1;Redwood Tree's Leaves;0.20;0.08
+18:2;Birch Tree's Leaves;0.20;0.08
+19;Sponge;5.0;2
+20;Glass;2.0;0.8
+21;Lapis Lazuli Ore;20.0;8
+22;Lapis Lazuli Block;45.0;18
+23;Dispenser;16.5;6.59
+24;Sandstone;4.0;1.6
+25;Note Block;10.5;4.2
+26;Bed;18.0;7.2
+27;Powered Rail;51.5;20.6
+28;Detector Rail;12.0;4.8
+29;Sticky Piston;33.50;13.4
+30;Spider Web;3.0;1.2
+31;Dead Grass;1.0;0.4
+32;Dead Shrub;1.0;0.4
+33;Piston;18.5;7.4
+34;Piston Extension;0.0;0
+35;White Wool;5.0;2
+35:1;Orange Wool;6.5;2.6
+35:2;Magenta Wool;7.25;2.9
+35:3;Light Blue Wool;8.0;3.2
+35:4;Yellow Wool;6.5;2.6
+35:5;Lime Green Wool;7.5;3
+35:6;Pink Wool;6.25;2.5
+35:7;Gray Wool;8.0;3.2
+35:8;Light Gray Wool;7.0;2.79
+35:9;Cyan Wool;9.5;3.79
+35:10;Purple Wool;8.25;3.29
+35:11;Blue Wool;10.0;4
+35:12;Brown Wool;25.0;10
+35:13;Green Wool;9.0;3.6
+35:14;Red Wool;6.5;2.6
+35:15;Black Wool;10.0;4
+36;Piston Placeholder;0.0;0
+37;Yellow flower;3.0;1.2
+38;Red rose;3.0;1.2
+39;Brown Mushroom;2.0;0.8
+40;Red Mushroom;2.0;0.8
+41;Gold Block;450;180
+42;Iron Block;100;40
+43;Double Stone Slab;3.0;1.2
+43:1;Double Sandstone Slab;4.0;1.6
+43:2;Double Wooden Slab;2.0;0.8
+43:3;Double Cobblestone Slab;1.0;0.4
+43:4;Double Brick Slab;40.0;16
+43:5;Double Stone Brick Slab;3.0;1.2
+44;Stone Slab;1.5;0.6
+44:1;Sandstone Slab;4.0;1.6
+44:2;Wooden Slab;1.0;0.4
+44:3;Cobblestone Slab;0.5;0.2
+44:4;Brick Slab;20.0;8
+44:5;Stone Brick Slab;1.5;0.6
+45;Brick;20.0;8
+46;TNT;44.0;17.6
+47;Bookshelf;24.0;9.6
+48;Moss Stone;10.0;4
+49;Obsidian;20.0;8
+50;Torch;2.25;0.9
+51;Fire;0.0;0
+52;Monster Spawner;200.0;80
+53;Wooden Stairs;1.5;0.6
+54;Chest;8.0;3.2
+55;Redstone Wire;0.0;0
+56;Diamond Ore;200.0;80
+57;Diamond Block;1800.0;720
+58;Workbench;4.0;1.6
+59;Crops;0.0;0
+60;Farmland;2.00;0.8
+61;Furnace;4.0;1.6
+62;Burning Furnace;5.0;2
+63;Sign Post;0.0;0
+64;Wooden Door;6.0;2.4
+65;Ladder;1.75;0.69
+66;Rail;4.25;1.7
+67;Cobblestone Stairs;2.25;0.9
+68;Wall Sign;0.0;0
+69;Lever;1.0;0.4
+70;Stone Pressure Plate;3.0;1.2
+71;Iron Door;66.0;26.39
+72;Wooden Pressure Plate;2.0;0.8
+73;Redstone Ore;10.0;4
+74;Glowing Redstone Ore;12.0;4.8
+75;Redstone torch;3.0;1.2
+76;Redstone torch;3.0;1.2
+77;Stone Button;3.0;1.2
+78;Snow;1.0;0.4
+79;Ice;5.0;2
+80;Snow Block;2.0;0.8
+81;Cactus;3.0;1.2
+82;Clay Block;16.0;6.4
+83;Reed;0.0;0
+84;Jukebox;208.0;83.2
+85;Fence;1.5;0.6
+86;Pumpkin;4.0;1.6
+87;Netherrack;0.4;0.16
+88;Soul Sand;5.0;2
+89;Glowstone;20.0;8
+90;Portal;0.0;0
+91;Jack-O-Lantern;6.25;2.5
+92;Cake;115.0;46
+93;Redstone repeater off;13.0;5.2
+94;Redstone repeater on;13.0;5.2
+95;Locked Chest;20.0;8
+96;Trapdoor;3.0;1.2
+98;Stone Brick;1.5;0.6
+101;Iron Bars;4.25;1.7
+102;Glass Pane;0.75;0.3
+103;Melon;9.0;3.6
+106;Vines;5.0;2
+107;Fence Gate;4.0;1.6
+108;Brick Stairs;30.0;12
+109;Stone Brick Stairs;2.25;0.9
+256;Iron Shovel;12.0;4.8
+257;Iron Pickaxe;34.0;13.6
+258;Iron Axe;34.0;13.6
+259;Flint and Steel;13.0;5.2
+260;Apple;20.0;8
+261;Bow;10.5;4.2
+262;Arrow;1.50;0.6
+263;Coal;8.0;3.2
+263:1;Charcoal;5.0;2
+264;Diamond;200.0;80
+265;Iron Ingot;11.0;4.4
+266;Gold Ingot;51.0;20.39
+267;Iron Sword;22.5;9
+268;Wooden Sword;2.5;1
+269;Wooden Shovel;2.0;0.8
+270;Wooden Pickaxe;4.0;1.6
+271;Wooden Axe;4.0;1.6
+272;Stone Sword;1.5;0.6
+273;Stone Shovel;1.5;0.6
+274;Stone Pickaxe;2.5;1
+275;Stone Axe;2.5;1
+276;Diamond Sword;405.0;162
+277;Diamond Shovel;205.0;82
+278;Diamond Pickaxe;605.0;242
+279;Diamond Axe;605.0;242
+280;Stick;0.5;0.2
+281;Bowl;0.75;0.3
+282;Mushroom Stew;4.75;1.89
+283;Gold Sword;102.5;41
+284;Gold Shovel;52.0;20.8
+285;Gold Pickaxe;154.0;61.6
+286;Gold Axe;154.0;61.6
+287;String;3.0;1.2
+288;Feather;3.0;1.2
+289;Sulphur;8.0;3.2
+290;Wooden Hoe;3.0;1.2
+291;Stone Hoe;2.0;0.8
+292;Iron Hoe;23.0;9.19
+293;Diamond Hoe;405.0;162
+294;Gold Hoe;105.0;42
+295;Seeds;1.0;0.4
+296;Wheat;1.0;0.4
+297;Bread;3.0;1.2
+298;Leather Helmet;15.0;6
+299;Leather Chestplate;24.0;9.6
+300;Leather Leggings;21.0;8.4
+301;Leather Boots;12.0;4.8
+302;Chainmail Helmet;0.0;0
+303;Chainmail Chestplate;0.0;0
+304;Chainmail Leggings;0.0;0
+305;Chainmail Boots;0.0;0
+306;Iron Helmet;55.0;22
+307;Iron Chestplate;88.0;35.2
+308;Iron Leggings;77.0;30.8
+309;Iron Boots;44.0;17.6
+310;Diamond Helmet;1000.0;400
+311;Diamond Chestplate;1600.0;640
+312;Diamond Leggings;1400.0;560
+313;Diamond Boots;800.0;320
+314;Gold Helmet;255.0;102
+315;Gold Chestplate;408.0;163.19
+316;Gold Leggings;357.0;142.8
+317;Gold Boots;204.0;81.59
+318;Flint;2.0;0.8
+319;Raw Porkchop;3.0;1.2
+320;Cooked Porkchop;4.0;1.6
+321;Paintings;9.0;3.6
+322;Golden apple;3692.0;1476.8
+323;Sign;6.5;2.6
+324;Wooden door;6.0;2.4
+325;Bucket;33.0;13.19
+326;Water bucket;35.0;14
+327;Lava bucket;45.0;18
+328;Minecart;55.0;22
+329;Saddle;100.0;40
+330;Iron door;66.0;26.39
+331;Redstone;2.5;1
+332;Snowball;0.5;0.2
+333;Boat;5.0;2
+334;Leather;3.0;1.2
+335;Milk;35.0;14
+336;Clay Brick;5.0;2
+337;Clay Balls;4.0;1.6
+338;Sugar Cane;2.0;0.8
+339;Paper;2.0;0.8
+340;Book;6.0;2.4
+341;Slimeball;15.0;6
+342;Storage Minecart;63.0;25.2
+343;Powered Minecart;59.0;23.6
+344;Egg;3.0;1.2
+345;Compass;46.5;18.6
+346;Fishing Rod;7.5;3
+347;Clock;155.5;62.2
+348;Glowstone Dust;5.0;2
+349;Raw Fish;3.0;1.2
+350;Cooked;4.0;1.6
+351;Ink Sac;5.0;2
+351:1;Rose Red;1.5;0.6
+351:2;Cactus Green;4.0;1.6
+351:3;Cocoa Beans;20.0;8
+351:4;Lapis Lazuli;5.0;2
+351:5;Purple Dye;3.25;1.3
+351:6;Cyan Dye;4.5;1.8
+351:7;Light Gray Dye;2.00;0.8
+351:8;Gray Dye;3.0;1.2
+351:9;Pink Dye;1.25;0.5
+351:10;Lime Dye;2.5;1
+351:11;Dandelion Yellow;1.5;0.6
+351:12;Light Blue Dye;3.0;1.2
+351:13;Magenta Dye;2.25;0.9
+351:14;Orange Dye;1.5;0.6
+351:15;Bone Meal;1.00;0.4
+352;Bone;3.0;1.2
+353;Sugar;2.0;0.8
+354;Cake;115.0;46
+355;Bed;18.0;7.2
+356;Redstone repeater;13.0;5.2
+357;Cookie;2.75;1.1
+358;Map;62.5;25
+359;Shears;22.0;8.8
+360;Melon Slice;1.0;0.4
+361;Pumpkin Seeds;3.0;1.2
+362;Melon Seeds;1.0;0.4
+363;Raw Beef;3.0;1.2
+364;Steak;4.0;1.6
+365;Raw Chicken;2.0;0.8
+366;Cooked Chicken;3.0;1.2
+367;Rotten Flesh;1.0;0.4
+368;Ender Pearl;10.0;4
+2256;Gold Music Disc;200.0;80
+2257;Green Music Disc;200.0;80
