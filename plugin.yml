@@ -1,0 +1,52 @@
+name: ShopChest
+main: us.calzoneman.ShopChest.ShopChest
+version: 0.00
+commands:
+    cshop:
+      description: The command used to manipulate ChestShops
+    cs:
+      description: Alias for /cshop
+permissions:
+    shopchest.*:
+        description: Gives access to all ShopChest commands
+        children:
+            shopchest.create: true
+            shopchest.delete: true
+            shopchest.shop: true
+            shopchest.price: true
+            shopchest.checkprice: true
+            shopchest.sale: true
+    shopchest.create:
+        description: Allows players to create their own shops
+        default: true
+    shopchest.delete:
+        description: Allows players to delete shops
+        children:
+            shopchest.delete.own: true
+            shopchest.delete.others: true
+    shopchest.delete.own:
+        description: Allows players to delete their own shops
+        default: true
+    shopchest.delete.others:
+        description: Allows players to delete others' shops
+        default: op
+    shopchest.shop:
+        description: Allows players to shop in Chest shops
+        default: true
+    shopchest.price:
+        description: Allows players to set prices
+        children:
+            shopchest.price.player: true
+            shopchest.price.shop: true
+    shopchest.price.player:
+        description: Allows players to set prices across all of their shops (overridden by shop-specific pricing)
+        default: true
+    shopchest.price.shop:
+        description: Allows players to set per-shop prices (overrides player price)
+        default: true
+    shopchest.checkprice:
+        description: Allows players to use /cshop checkprice [id]:[datavalue] to check the pricing of an item
+        default: true
+    shopchest.sale:
+        description: Allows players to hold sales in their shops
+        default: true
