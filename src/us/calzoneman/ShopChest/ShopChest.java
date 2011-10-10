@@ -99,18 +99,48 @@ public class ShopChest extends JavaPlugin {
      * @return The name of the item according to the price file, or the Material name if the loaded values don't contain a name for that item
      */
     public static String getItemName(int item) {
+        String baseName = "";
         if(itemNames.containsKey(item)) {
-            return itemNames.get(item);
+            baseName = itemNames.get(item);
         }
         else {
             Material m = Material.getMaterial(ItemData.getId(item));
             if(m != null) {
-                return m.name();
+                baseName = m.name();
             }
             else {
-                return "#" + ItemData.toString(item);
+                baseName = "#" + ItemData.toString(item);
             }
         }
+
+        return baseName;
+    }
+
+    /**
+     * getDamageString - Generates a formatted string of the percent damage of an item
+     * @param it The ItemStack to evaluate the damage of
+     * @return A formatted string of the damage - A color followed by (damage%)
+     */
+    public static String getDamageString(ItemStack it) {
+        if(!ChestShop.hasDamage.contains(it.getType())) {
+            return "";
+        }
+        String damage = "";
+        float percentDamage = (float)it.getDurability() / it.getType().getMaxDurability();
+        float percentLeft = 1.0f - percentDamage;
+        String color = "§a";
+        if(percentLeft < 0.25f) {
+            color = "§4";
+        }
+        else if(percentLeft < 0.50f) {
+            color = "§6";
+        }
+        else if(percentLeft < 0.75f) {
+            color = "§e";
+        }
+
+        damage = color + "(" + ((int)(1000 * percentLeft) / 10.0f) + "%)";
+        return damage;
     }
 
     /**
@@ -205,7 +235,7 @@ public class ShopChest extends JavaPlugin {
         }
         for(ItemStack it : totalContents) {
             it.setAmount(1);
-            prices += "§b" + getItemName(ItemData.fromItemStack(it)) + ": §e" + formatAmount(cs.getPrice(it, false)) + "§f, ";
+            prices += "§b" + getItemName(ItemData.fromItemStack(it)) + getDamageString(it) + ": §e" + formatAmount(cs.getPrice(it, false)) + "§f, ";
         }
         p.sendMessage(prices);
 
@@ -267,7 +297,7 @@ public class ShopChest extends JavaPlugin {
 
         // Combine stacks for ease of transaction handling
         ItemStack[] combinedAfter = combineStacks(after);
-        HashMap<Integer, ItemStack> combinedBefore = combineStacksHashMap(state.preInventory);
+        ArrayList<ItemStack> combinedBefore = combineStacksArrayList(state.preInventory);
         
 
         ArrayList<ItemStack> added = new ArrayList<ItemStack>(); // Stuff added rather than taken
@@ -275,20 +305,29 @@ public class ShopChest extends JavaPlugin {
         for(ItemStack it : combinedAfter) {
             if(it == null || it.getAmount() == 0) continue;
             int item = ItemData.fromItemStack(it);
-            if(!combinedBefore.containsKey(item)) {
+            ItemStack found = null;
+            int index = -1;
+            for(ItemStack i : combinedBefore) {
+                if(ItemData.fromItemStack(i) == item) {
+                    if(i.getDurability() == it.getDurability()) {
+                        found = i;
+                        index = combinedBefore.indexOf(i);
+                    }
+                }
+            }
+            if(found == null) {
                 added.add(it);
                 continue;
             }
-            ItemStack itBefore = combinedBefore.get(item);
-            int delta = itBefore.getAmount() - it.getAmount();
+            int delta = found.getAmount() - it.getAmount();
             if(delta >= 0) {
-                itBefore.setAmount(delta);
-                combinedBefore.put(item, itBefore);
+                found.setAmount(delta);
+                combinedBefore.set(index, found);
             }
             else {
-                itBefore.setAmount(0);
-                combinedBefore.put(item, itBefore);
-                ItemStack add = itBefore.clone();
+                found.setAmount(0);
+                combinedBefore.set(index, found);
+                ItemStack add = found.clone();
                 add.setAmount(-delta);
                 added.add(add);
             }
@@ -311,14 +350,14 @@ public class ShopChest extends JavaPlugin {
 
         // Process sales [if there are any]
         if(combinedBefore.size() > 0) {
-            ShopChestTransaction selltrans = state.shop.processTransaction(p, combinedBefore.values().toArray(new ItemStack[combinedBefore.size()]), false);
+            ShopChestTransaction selltrans = state.shop.processTransaction(p, combinedBefore.toArray(new ItemStack[combinedBefore.size()]), false);
             if(iConomyVersion == null) {
                 log.severe("[ShopChest] Failed to process transaction: no iConomy version!");
             }
             else if(iConomyVersion.equals("5")) {
                 if(ShopChestIConomy5Link.getBalance(p.getName()) < selltrans.finalAmount) {
                     p.sendMessage(shopChestPrefix + "You can't afford that!");
-                    for(ItemStack it : combinedBefore.values()) {
+                    for(ItemStack it : combinedBefore) {
                         if(state.chest.getInventory().addItem(splitStack(it)) != null) {
                             state.neighbor.getInventory().addItem(splitStack(it));
                         }
@@ -497,42 +536,52 @@ public class ShopChest extends JavaPlugin {
      * @return An array of the contents combined together -- NOTE: Does not adhere to Minecraft stack sizes, this is to make transaction data easier to work with
      */
     public static ItemStack[] combineStacks(ItemStack[] initial) {
-        HashMap<Integer, ItemStack> stacks = new HashMap<Integer, ItemStack>();
+        ArrayList<ItemStack> stacks = new ArrayList<ItemStack>();
         for(ItemStack it : initial) {
             if(it == null || it.getAmount() == 0) continue;
             int item = ItemData.fromItemStack(it);
-            if(stacks.containsKey(item)) {
-                ItemStack i = stacks.get(item);
-                i.setAmount(i.getAmount() + it.getAmount());
-                stacks.put(item, i);
+            boolean itemExists = false;
+            for(ItemStack i : stacks) {
+                if(ItemData.fromItemStack(i) == item) {
+                    if(i.getDurability() == it.getDurability()) {
+                        itemExists = true;
+                        i.setAmount(i.getAmount() + it.getAmount());
+                        stacks.set(stacks.indexOf(i), i);
+                        break;
+                    }
+                }
             }
-            else {
-                stacks.put(item, it.clone());
+            if(!itemExists) {
+                stacks.add(it);
             }
-
         }
-        return stacks.values().toArray(new ItemStack[stacks.size()]);
+        return stacks.toArray(new ItemStack[stacks.size()]);
     }
 
     /**
      * combineStacks - Combines ItemStacks by adding up the quantities of ItemStacks with the same type
      * @param initial An array of the contents to be combined
-     * @return An HashMap of the contents combined together, keyed by item (see ItemData.java for item information) -- NOTE: Does not adhere to Minecraft stack sizes, this is to make transaction data easier to work with
+     * @return An ArrayList of the contents combined together, keyed by item (see ItemData.java for item information) -- NOTE: Does not adhere to Minecraft stack sizes, this is to make transaction data easier to work with
      */
-    public static HashMap<Integer, ItemStack> combineStacksHashMap(ItemStack[] initial) {
-        HashMap<Integer, ItemStack> stacks = new HashMap<Integer, ItemStack>();
+    public static ArrayList<ItemStack> combineStacksArrayList(ItemStack[] initial) {
+        ArrayList<ItemStack> stacks = new ArrayList<ItemStack>();
         for(ItemStack it : initial) {
             if(it == null || it.getAmount() == 0) continue;
             int item = ItemData.fromItemStack(it);
-            if(stacks.containsKey(item)) {
-                ItemStack i = stacks.get(item);
-                i.setAmount(i.getAmount() + it.getAmount());
-                stacks.put(item, i);
+            boolean itemExists = false;
+            for(ItemStack i : stacks) {
+                if(ItemData.fromItemStack(i) == item) {
+                    if(i.getDurability() == it.getDurability()) {
+                        itemExists = true;
+                        i.setAmount(i.getAmount() + it.getAmount());
+                        stacks.set(stacks.indexOf(i), i);
+                        break;
+                    }
+                }
             }
-            else {
-                stacks.put(item, it.clone());
+            if(!itemExists) {
+                stacks.add(it);
             }
-
         }
         return stacks;
     }

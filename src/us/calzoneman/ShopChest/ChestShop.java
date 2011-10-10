@@ -150,15 +150,15 @@ public class ChestShop {
         float priceTotal = 0.0f;
         transaction.playerTransactionLines.add(ShopChest.shopChestPrefix + (selling ? "Selling" : "Buying") + " transaction for §3" + this.owner + "§f's shop §3" + this.name + "§f: ");
         // Combine stacks for ease of transaction handling
-        HashMap<Integer, ItemStack> itemTotals = ShopChest.combineStacksHashMap(it);
+        ArrayList<ItemStack> itemTotals = ShopChest.combineStacksArrayList(it);
 
-        for(ItemStack i : itemTotals.values()) {
+        for(ItemStack i : itemTotals) {
             float price = getPrice(i, selling);
             String transactionLine = "§aBUY §6";
             if(selling) {
                 transactionLine = "§cSELL §6";
             }
-            transactionLine += ShopChest.getItemName(ItemData.fromItemStack(i));
+            transactionLine += ShopChest.getItemName(ItemData.fromItemStack(i)) + ShopChest.getDamageString(i);
             transactionLine += "§f x " + i.getAmount();
             transactionLine += " (§b$" + price + "§f)";
             transaction.playerTransactionLines.add(transactionLine);
@@ -166,6 +166,7 @@ public class ChestShop {
             transaction.logTransactionLines.add("[" + this.owner + ":" + this.name + "] " + (selling ? "< " : "> ") + p.getName() + (selling ? " SELL " : " BUY ") + ShopChest.getItemName(ItemData.fromItemStack(i)) + " x " + i.getAmount() + " (" + price + ")");
             priceTotal += price;
         }
+        priceTotal = ((int)(100 * priceTotal)) / 100.0f;
         transaction.playerTransactionLines.add("------------------------------------------");
         transaction.playerTransactionLines.add("TOTAL: §b$" + priceTotal);
         transaction.playerTransactionLines.add("------------------------------------------");
