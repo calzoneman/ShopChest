@@ -29,11 +29,5 @@ public class ShopChestPluginListener extends ServerListener {
                 ShopChest.log.severe("[ShopChest] Unknown version of iConomy!");
             }
         }
-
-        // Permissions
-        Plugin permissions = Bukkit.getServer().getPluginManager().getPlugin("Permissions");
-        if(permissions != null) {
-            ShopChestPermissionsLink.init();
-        }
     }
 }

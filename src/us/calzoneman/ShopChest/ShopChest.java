@@ -177,15 +177,12 @@ public class ShopChest extends JavaPlugin {
      * @return True if the player has the permission, false otherwise
      */
     public static boolean hasPermission(Player p, String permission) {
-        // Try Permissions plugin first
-        if(ShopChestPermissionsLink.initialized) {
-            return ShopChestPermissionsLink.hasPermission(p, permission);
-        }
-        // Then Bukkit built-in permissions
-        else if(p.hasPermission(permission)) {
+
+        //Bukkit built-in permissions
+        if(p.hasPermission(permission)) {
             return true;
         }
-        // Finally, defaults - Only OPs can delete other people's chests
+        // Defaults - Only OPs can delete other people's chests
         else {
             if(permission.equals("shopchest.delete.others") && !p.isOp()) {
                 return false;

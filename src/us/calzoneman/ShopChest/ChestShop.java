@@ -162,7 +162,7 @@ public class ChestShop {
             transactionLine += "§f x " + i.getAmount();
             transactionLine += " (§b$" + price + "§f)";
             transaction.playerTransactionLines.add(transactionLine);
-            transaction.ownerTransactionLines.add(ShopChest.shopChestPrefix + "Shop §3" + this.name + "§f " + (selling ? "< " : "> ") + "§3" + p.getName() + (selling ? "§cSELL §6" : "§aBUY §6") + ShopChest.getItemName(ItemData.fromItemStack(i)) + "§f x " + i.getAmount() + " (§b$" + price + "§f)");
+            transaction.ownerTransactionLines.add(ShopChest.shopChestPrefix + "Shop §3" + this.name + "§f " + (selling ? "< " : "> ") + "§3" + p.getName() + "§f: " + (selling ? "§cSELL §6" : "§aBUY §6") + ShopChest.getItemName(ItemData.fromItemStack(i)) + "§f x " + i.getAmount() + " (§b$" + price + "§f)");
             transaction.logTransactionLines.add("[" + this.owner + ":" + this.name + "] " + (selling ? "< " : "> ") + p.getName() + (selling ? " SELL " : " BUY ") + ShopChest.getItemName(ItemData.fromItemStack(i)) + " x " + i.getAmount() + " (" + price + ")");
             priceTotal += price;
         }
